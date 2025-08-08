@@ -92,6 +92,12 @@
             border-radius: 1rem;
             overflow: hidden;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        #kelp-map {
+            height: 100%;
+            width: 100%;
         }
         
         .before-after {
@@ -593,27 +599,50 @@
                 <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
             </div>
             
-            <div class="map-container bg-gray-200 mb-8">
-                <!-- Placeholder for Mapbox/Leaflet map -->
-                <div class="flex items-center justify-center h-full">
-                    <div class="text-center">
-                        <svg class="h-12 w-12 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            <div class="map-container bg-gray-200 mb-8 relative">
+                <!-- Interactive Map Container -->
+                <div id="kelp-map" class="h-full w-full rounded-xl overflow-hidden">
+                    <!-- Map will be loaded here via JavaScript -->
+                </div>
+
+                <!-- Legend -->
+                <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm p-4 rounded-lg shadow-lg z-[1000]">
+                    <h4 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <h3 class="text-lg font-medium text-gray-900">Interactive Kelp Map</h3>
-                        <p class="text-gray-500 mt-1">Map data will be visualized here using Kelpwatch.org datasets</p>
+                        Legend
+                    </h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 rounded-full bg-red-600/30 border-2 border-red-600"></div>
+                            <span>Declining</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 rounded-full bg-yellow-600/30 border-2 border-yellow-600"></div>
+                            <span>Stable</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 rounded-full bg-green-600/30 border-2 border-green-600"></div>
+                            <span>Recovering</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="flex justify-center mb-8">
+            <!-- Year Slider with Comparison Toggle -->
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
                 <div class="w-full md:w-1/2">
-                    <label for="year-range" class="block text-sm font-medium text-gray-700 mb-1 text-center">Year Range</label>
+                    <label for="year-range" class="block text-sm font-medium text-gray-700 mb-1 text-center">Year Range: <span id="year-value">2025</span></label>
                     <input type="range" id="year-range" min="1984" max="2025" value="2025" class="w-full">
                     <div class="flex justify-between text-xs text-gray-500 mt-1">
                         <span>1984</span>
                         <span>2025</span>
                     </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="compare-toggle" class="rounded border-gray-300 text-teal-600 focus:ring-teal-500">
+                    <label for="compare-toggle" class="text-sm text-gray-700">Show 1984 comparison</label>
                 </div>
             </div>
             
@@ -836,7 +865,166 @@
         </div>
     </footer>
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <script>
+        // Load Leaflet JS dynamically
+        function loadLeaflet() {
+            return new Promise((resolve) => {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+                script.onload = resolve;
+                document.head.appendChild(script);
+            });
+        }
+
+        // Initialize the map once Leaflet is loaded
+        async function initMap() {
+            await loadLeaflet();
+            
+            const map = L.map('kelp-map', {
+                minZoom: 1, // Allow more zoom out
+                maxZoom: 10,
+                maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)), // Constrain panning
+                maxBoundsViscosity: 0.5 // Less strict bounds enforcement
+            }).setView([36.8, -121.9], 4);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Sample kelp forest data (in a real app, this would come from an API)
+            const kelpForests = [
+                {
+                    id: 1,
+                    name: 'Monterey Bay',
+                    position: [36.8, -121.9],
+                    coverage2023: 25,
+                    coverage1984: 95,
+                    trend: 'declining',
+                    description: 'Historically one of California\'s most extensive kelp forests',
+                    threats: ['Marine heatwaves', 'Sea urchin overgrazing']
+                },
+                {
+                    id: 2,
+                    name: 'Channel Islands',
+                    position: [34.0, -119.8],
+                    coverage2023: 15,
+                    coverage1984: 80,
+                    trend: 'declining',
+                    description: 'Critical habitat for numerous marine species',
+                    threats: ['Climate change', 'Purple urchin population boom']
+                },
+                {
+                    id: 3,
+                    name: 'Point Reyes',
+                    position: [38.1, -123.0],
+                    coverage2023: 45,
+                    coverage1984: 75,
+                    trend: 'declining',
+                    description: 'Relatively stable compared to southern populations',
+                    threats: ['Warming waters', 'Storm damage']
+                }
+            ];
+
+            // Function to update map based on selected year
+            function updateMap(year, showComparison) {
+                // Clear existing layers except base tile layer
+                map.eachLayer(layer => {
+                    if (!layer._url) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                kelpForests.forEach(forest => {
+                    const currentCoverage = year === 1984 ? forest.coverage1984 : forest.coverage2023;
+                    const radius = Math.max(currentCoverage * 1000, 5000);
+                    
+                    // Add coverage area
+                    L.circle(forest.position, {
+                        radius: radius,
+                        color: getColor(forest.trend),
+                        fillColor: getColor(forest.trend),
+                        fillOpacity: 0.3,
+                        weight: 2
+                    }).addTo(map);
+
+                    // Add historical comparison if enabled
+                    if (showComparison && year !== 1984) {
+                        L.circle(forest.position, {
+                            radius: Math.max(forest.coverage1984 * 1000, 5000),
+                            color: '#94A3B8',
+                            fillColor: 'transparent',
+                            weight: 2,
+                            dashArray: '5, 5'
+                        }).addTo(map);
+                    }
+
+                    // Add marker
+                    L.marker(forest.position, {
+                        icon: L.divIcon({
+                            html: `<div style="background-color: ${getColor(forest.trend)}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+                            iconSize: [20, 20],
+                            iconAnchor: [10, 10]
+                        })
+                    }).bindPopup(`
+                        <div class="p-2">
+                            <h3 class="font-semibold text-gray-900 mb-2">${forest.name}</h3>
+                            <p class="text-sm text-gray-600 mb-3">${forest.description}</p>
+                            <div class="space-y-2 mb-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">Current Coverage:</span>
+                                    <span class="text-sm font-medium">${currentCoverage}%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">1984 Coverage:</span>
+                                    <span class="text-sm font-medium text-gray-400">${forest.coverage1984}%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-medium text-gray-700 mb-1">Primary Threats:</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    ${forest.threats.map(threat => `
+                                        <span class="px-2 py-1 bg-gray-100 text-xs rounded-full text-gray-600">${threat}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `).addTo(map);
+                });
+            }
+
+            function getColor(trend) {
+                switch(trend) {
+                    case 'declining': return '#DC2626';
+                    case 'stable': return '#D97706';
+                    case 'recovering': return '#059669';
+                    default: return '#6B7280';
+                }
+            }
+
+            // Initialize with current year
+            updateMap(2025, false);
+
+            // Connect slider to map updates
+            const yearSlider = document.getElementById('year-range');
+            const yearValue = document.getElementById('year-value');
+            const compareToggle = document.getElementById('compare-toggle');
+
+            yearSlider.addEventListener('input', () => {
+                yearValue.textContent = yearSlider.value;
+                updateMap(parseInt(yearSlider.value), compareToggle.checked);
+            });
+
+            compareToggle.addEventListener('change', () => {
+                updateMap(parseInt(yearSlider.value), compareToggle.checked);
+            });
+        }
+
+        // Initialize the map when page loads
+        document.addEventListener('DOMContentLoaded', initMap);
+
         // Create bubbles for hero section with constant animation
         function createBubbles() {
             const bubblesContainer = document.getElementById('bubbles');
