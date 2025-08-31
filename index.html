@@ -1,977 +1,1788 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReKelp - Restoring Kelp Forests Through Innovation</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReKelp</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --teal-500: #06b6d4;
-            --teal-600: #0891b2;
-            --blue-800: #1e40af;
-            --green-600: #16a34a;
-            --green-700: #15803d;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
-        
-        .hero-bg {
-            background: linear-gradient(rgba(0, 30, 60, 0.7), rgba(0, 60, 80, 0.4)), 
-                        url('MainPhoto.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        
-        .kelp-animation {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background: url('https://www.svgrepo.com/show/533630/kelp.svg') repeat-x;
-            background-size: 200px;
-            animation: kelpWave 15s linear infinite;
-        }
+      :root {
+        --teal-500: #06b6d4;
+        --teal-600: #0891b2;
+        --blue-800: #1e40af;
+        --green-600: #16a34a;
+        --green-700: #15803d;
+      }
 
-        .bubbles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 15;
-        }
+      body {
+        font-family: "Inter", sans-serif;
+        scroll-behavior: smooth;
+      }
 
-        .bubble {
-            position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            animation: bubble-float linear infinite;
-            box-shadow: 
-                0 0 15px rgba(173, 216, 230, 0.6),
-                inset 0 0 10px rgba(255, 255, 255, 0.7);
-            filter: blur(0.5px);
-            opacity: 0.5;
-            z-index: 10;
-        }
+      .hero-bg {
+        background: linear-gradient(rgba(0, 30, 60, 0.7), rgba(0, 60, 80, 0.4)),
+          url("MainPhoto.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
 
-        @keyframes bubble-float {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0.7;
-                bottom: -100px;
-            }
-            50% {
-                transform: translateX(var(--x-movement, 0));
-            }
-            100% {
-                transform: translateY(0) translateX(calc(var(--x-movement, 0) * 2));
-                opacity: 0;
-                bottom: 100vh;
-            }
-        }
+      .kelp-animation {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        background: url("https://www.svgrepo.com/show/533630/kelp.svg") repeat-x;
+        background-size: 200px;
+        animation: kelpWave 15s linear infinite;
+      }
 
-        @keyframes kelpWave {
-            0% { background-position-x: 0; }
-            100% { background-position-x: 200px; }
+      .bubbles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 15;
+      }
+
+      .bubble {
+        position: absolute;
+        bottom: -100px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        animation: bubble-float linear infinite;
+        box-shadow: 0 0 15px rgba(173, 216, 230, 0.6),
+          inset 0 0 10px rgba(255, 255, 255, 0.7);
+        filter: blur(0.5px);
+        opacity: 0.5;
+        z-index: 10;
+      }
+
+      @keyframes bubble-float {
+        0% {
+          transform: translateY(0) translateX(0);
+          opacity: 0.7;
+          bottom: -100px;
         }
-        
-        .map-container {
-            height: 500px;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            position: relative;
+        50% {
+          transform: translateX(var(--x-movement, 0));
         }
-        
-        #kelp-map {
-            height: 100%;
-            width: 100%;
+        100% {
+          transform: translateY(0) translateX(calc(var(--x-movement, 0) * 2));
+          opacity: 0;
+          bottom: 100vh;
         }
-        
-        .before-after {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            border-radius: 0.5rem;
+      }
+
+      @keyframes kelpWave {
+        0% {
+          background-position-x: 0;
         }
-        
-        .before-after img {
-            width: 100%;
-            display: block;
+        100% {
+          background-position-x: 200px;
         }
-        
-        .slider {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 50%;
-            overflow: hidden;
-        }
-        
-        .slider-handle {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: white;
-            transform: translateX(-50%);
-            cursor: ew-resize;
-        }
-        
-        .slider-handle:after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .timeline-item {
-            position: relative;
-            padding-bottom: 40px;
-        }
-        
-        .section-divider {
-            border-top: 1px solid rgba(6, 182, 212, 0.2);
-            margin: 0 auto;
-            width: 80%;
-        }
-        
-        
-        .device-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-        }
+      }
+
+      .map-container {
+        height: 500px;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      #kelp-map {
+        height: 100%;
+        width: 100%;
+      }
+
+      .before-after {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 0.5rem;
+      }
+
+      .before-after img {
+        width: 100%;
+        display: block;
+      }
+
+      .slider {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        overflow: hidden;
+      }
+
+      .slider-handle {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: white;
+        transform: translateX(-50%);
+        cursor: ew-resize;
+      }
+
+      .slider-handle:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-bottom: 40px;
+      }
+
+      .section-divider {
+        border-top: 1px solid rgba(6, 182, 212, 0.2);
+        margin: 0 auto;
+        width: 80%;
+      }
+
+      .device-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+
+      .fade-in {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+      }
     </style>
-</head>
-<body class="bg-gray-50">
+  </head>
+  <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50 transition-transform duration-300 transform translate-y-0" id="main-nav">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <img class="h-8 w-auto" src="ReKelpLogo.png" alt="ReKelp logo" style="filter: hue-rotate(0deg) saturate(1.5) brightness(0.9);">
-                        <span class="ml-2 text-xl font-bold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">ReKelp</span>
-                    </div>
-                </div>
-                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
-                    <a href="#home" class="text-teal-600 hover:text-teal-800 px-3 py-2 font-medium">Home</a>
-                    <a href="#action" class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium">Take Action</a>
-                    <a href="#about" class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium">About</a>
-                    <a href="#solution" class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium">Solution</a>
-                    <a href="#map" class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium">Global Map</a>
-                    <a href="#involved" class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium">Get Involved</a>
-                </div>
-                <div class="-mr-2 flex items-center md:hidden">
-                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-teal-600 hover:bg-gray-100 focus:outline-none">
-                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+    <nav
+      class="bg-white shadow-sm sticky top-0 z-50 transition-transform duration-300 transform translate-y-0"
+      id="main-nav"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <img
+                class="h-8 w-auto"
+                src="ReKelpLogo.png"
+                alt="ReKelp logo"
+                style="filter: hue-rotate(0deg) saturate(1.5) brightness(0.9)"
+              />
+              <span
+                class="ml-2 text-xl font-bold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent"
+                >ReKelp</span
+              >
             </div>
+          </div>
+          <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+            <a
+              href="#home"
+              class="text-teal-600 hover:text-teal-800 px-3 py-2 font-medium"
+              >Home</a
+            >
+            <a
+              href="#action"
+              class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium"
+              >Take Action</a
+            >
+            <a
+              href="#about"
+              class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium"
+              >About</a
+            >
+            <a
+              href="#solution"
+              class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium"
+              >Solution</a
+            >
+            <a
+              href="#map"
+              class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium"
+              >Global Map</a
+            >
+            <a
+              href="#involved"
+              class="text-gray-700 hover:text-teal-600 px-3 py-2 font-medium"
+              >Get Involved</a
+            >
+          </div>
+          <div class="-mr-2 flex items-center md:hidden">
+            <button
+              type="button"
+              id="mobile-menu-button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-teal-600 hover:bg-gray-100 focus:outline-none"
+            >
+              <svg
+                class="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-        
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="block px-3 py-2 text-base font-medium text-teal-600 hover:bg-gray-100">Home</a>
-                <a href="#action" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">Take Action</a>
-                <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">About</a>
-                <a href="#solution" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">Solution</a>
-                <a href="#map" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">Global Map</a>
-                <a href="#involved" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">Get Involved</a>
-            </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a
+            href="#home"
+            class="block px-3 py-2 text-base font-medium text-teal-600 hover:bg-gray-100"
+            >Home</a
+          >
+          <a
+            href="#action"
+            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            >Take Action</a
+          >
+          <a
+            href="#about"
+            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            >About</a
+          >
+          <a
+            href="#solution"
+            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            >Solution</a
+          >
+          <a
+            href="#map"
+            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            >Global Map</a
+          >
+          <a
+            href="#involved"
+            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            >Get Involved</a
+          >
         </div>
+      </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center text-white">
-        <div class="absolute inset-0">
-            <img src="MainPhoto.jpeg" alt="Kelp forest background" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-teal-600/20"></div>
+    <section
+      id="home"
+      class="relative min-h-screen flex items-center justify-center text-white"
+    >
+      <div class="absolute inset-0">
+        <img
+          src="MainPhoto.jpeg"
+          alt="Kelp forest background"
+          class="w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-teal-600/20"
+        ></div>
+      </div>
+      <div class="bubbles" id="bubbles"></div>
+      <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+        <h1
+          class="text-6xl md:text-8xl font-bold mb-2 animate-fade-in bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent"
+        >
+          ReKelp
+        </h1>
+        <h2
+          class="text-3xl md:text-4xl font-light mb-8 bg-gradient-to-r from-teal-300 to-emerald-400 bg-clip-text text-transparent"
+        >
+          Sea the Change.
+        </h2>
+        <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+          Spreading awareness to regrow the world's kelp forests.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="#map"
+            class="px-8 py-3 bg-teal-600 hover:bg-teal-700 rounded-full font-medium transition duration-300 transform hover:scale-105"
+            >Explore the Map</a
+          >
+          <a
+            href="#solution"
+            class="px-8 py-3 bg-transparent border-2 border-white hover:bg-white hover:text-teal-800 rounded-full font-medium transition duration-300 transform hover:scale-105"
+            >Our Solution</a
+          >
+          <a
+            href="#involved"
+            class="px-8 py-3 bg-green-600 hover:bg-green-700 rounded-full font-medium transition duration-300 transform hover:scale-105"
+            >Get Involved</a
+          >
         </div>
-        <div class="bubbles" id="bubbles"></div>
-        <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-            <h1 class="text-6xl md:text-8xl font-bold mb-2 animate-fade-in bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">ReKelp</h1>
-            <h2 class="text-3xl md:text-4xl font-light mb-8 bg-gradient-to-r from-teal-300 to-emerald-400 bg-clip-text text-transparent">Sea the Change.</h2>
-            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Spreading awareness to regrow the world's kelp forests.</p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#map" class="px-8 py-3 bg-teal-600 hover:bg-teal-700 rounded-full font-medium transition duration-300 transform hover:scale-105">Explore the Map</a>
-                <a href="#solution" class="px-8 py-3 bg-transparent border-2 border-white hover:bg-white hover:text-teal-800 rounded-full font-medium transition duration-300 transform hover:scale-105">Our Solution</a>
-                <a href="#involved" class="px-8 py-3 bg-green-600 hover:bg-green-700 rounded-full font-medium transition duration-300 transform hover:scale-105">Get Involved</a>
-            </div>
-        </div>
-        <div class="kelp-animation"></div>
+      </div>
+      <div class="kelp-animation"></div>
     </section>
 
     <div class="section-divider"></div>
     <!-- Why Kelp Matters Section -->
     <section id="action" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Kelp Forests Matter</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">The vital role of kelp forests and why they're disappearing</p>
-                <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 mb-20 items-center">
-                <div>
-                    <img src="Healthy.png" 
-                         alt="Healthy kelp forest" 
-                         class="rounded-xl shadow-lg w-full h-auto">
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">The Underwater Rainforests</h3>
-                    <p class="text-gray-600 mb-6">Kelp forests are among the most productive ecosystems on Earth, growing up to 2 feet per day. These underwater forests:</p>
-                    <ul class="space-y-4 text-gray-600">
-                        <li class="flex items-start">
-                            <svg class="h-6 w-6 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Support over 1,000 marine species including fish, invertebrates and marine mammals</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-6 w-6 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Absorb 20x more CO₂ per acre than land forests, helping combat climate change</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Protect coastlines by reducing wave energy by up to 50%</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 mb-20 items-center">
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">The Crisis We Face</h3>
-                    <p class="text-gray-600 mb-6">Globally, we've lost over 40% of kelp forests in just 50 years. Some regions like Northern California have seen 95% declines due to:</p>
-                    <ul class="space-y-4 text-gray-600">
-                        <li class="flex items-start">
-                            <svg class="h-6 w-6 text-red-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            <span>Rising ocean temperatures from climate change</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-6 w-6 text-red-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            <span>Pollution from agricultural runoff and plastic waste</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-6 w-6 text-red-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            <span>Overgrazing by sea urchins due to declining predator populations</span>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <img src="Damaged.jpg" 
-                         alt="Damaged kelp forest" 
-                         class="rounded-xl shadow-lg w-full h-auto">
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Why Kelp Forests Matter
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            The vital role of kelp forests and why they're disappearing
+          </p>
+          <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-20 items-center">
+          <div>
+            <img
+              src="Healthy.png"
+              alt="Healthy kelp forest"
+              class="rounded-xl shadow-lg w-full h-auto"
+            />
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              The Underwater Rainforests
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Kelp forests are among the most productive ecosystems on Earth,
+              growing up to 2 feet per day. These underwater forests:
+            </p>
+            <ul class="space-y-4 text-gray-600">
+              <li class="flex items-start">
+                <svg
+                  class="h-6 w-6 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span
+                  >Support over 1,000 marine species including fish,
+                  invertebrates and marine mammals</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-6 w-6 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span
+                  >Absorb 20x more CO₂ per acre than land forests, helping
+                  combat climate change</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span
+                  >Protect coastlines by reducing wave energy by up to 50%</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-20 items-center">
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              The Crisis We Face
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Globally, we've lost over 40% of kelp forests in just 50 years.
+              Some regions like Northern California have seen 95% declines due
+              to:
+            </p>
+            <ul class="space-y-4 text-gray-600">
+              <li class="flex items-start">
+                <svg
+                  class="h-6 w-6 text-red-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                <span>Rising ocean temperatures from climate change</span>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-6 w-6 text-red-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                <span
+                  >Pollution from agricultural runoff and plastic waste</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-6 w-6 text-red-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                <span
+                  >Overgrazing by sea urchins due to declining predator
+                  populations</span
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <img
+              src="Damaged.jpg"
+              alt="Damaged kelp forest"
+              class="rounded-xl shadow-lg w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
     </section>
 
     <div class="section-divider"></div>
 
     <!-- How You Can Help Section -->
     <section id="help" class="py-20 bg-teal-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How You Can Help</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Simple daily actions that help protect and restore kelp forests</p>
-                <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Shop Sustainably</h3>
-                    <ul class="space-y-3 text-gray-600">
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Choose sustainable seafood (look for MSC certification)</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Reduce plastic use - bring reusable bags and containers</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Support brands that use ocean-friendly packaging</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Daily Habits</h3>
-                    <ul class="space-y-3 text-gray-600">
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Use reef-safe sunscreen to prevent chemical runoff</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Conserve water to reduce wastewater pollution</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Properly dispose of fishing lines and nets</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Spread Awareness</h3>
-                    <ul class="space-y-3 text-gray-600">
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Educate others about kelp forest importance</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Participate in local beach cleanups</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-teal-500 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>Support policies protecting marine ecosystems</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="mt-16 bg-teal-600 rounded-xl p-8 text-white">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h3 class="text-2xl font-bold mb-4">Small Changes Create Big Waves</h3>
-                    <p class="mb-6">Kelp forests face multiple threats including climate change, pollution, and overfishing. While these problems seem overwhelming, collective individual actions can drive real change. Every sustainable choice helps reduce pressure on these vital ecosystems.</p>
-                    <a href="#involved" class="inline-block px-6 py-3 bg-white text-teal-700 font-medium rounded-full hover:bg-gray-100 transition duration-300">Learn More Ways to Help</a>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            How You Can Help
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Simple daily actions that help protect and restore kelp forests
+          </p>
+          <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
         </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div
+              class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="h-8 w-8 text-teal-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">
+              Shop Sustainably
+            </h3>
+            <ul class="space-y-3 text-gray-600">
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span
+                  >Choose sustainable seafood (look for MSC certification)</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span
+                  >Reduce plastic use - bring reusable bags and containers</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Support brands that use ocean-friendly packaging</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div
+              class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="h-8 w-8 text-teal-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Daily Habits</h3>
+            <ul class="space-y-3 text-gray-600">
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Use reef-safe sunscreen to prevent chemical runoff</span>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Conserve water to reduce wastewater pollution</span>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Properly dispose of fishing lines and nets</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div
+              class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="h-8 w-8 text-teal-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">
+              Spread Awareness
+            </h3>
+            <ul class="space-y-3 text-gray-600">
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Educate others about kelp forest importance</span>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Participate in local beach cleanups</span>
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2 mt-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Support policies protecting marine ecosystems</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-16 bg-teal-600 rounded-xl p-8 text-white">
+          <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-2xl font-bold mb-4">
+              Small Changes Create Big Waves
+            </h3>
+            <p class="mb-6">
+              Kelp forests face multiple threats including climate change,
+              pollution, and overfishing. While these problems seem
+              overwhelming, collective individual actions can drive real change.
+              Every sustainable choice helps reduce pressure on these vital
+              ecosystems.
+            </p>
+            <a
+              href="#involved"
+              class="inline-block px-6 py-3 bg-white text-teal-700 font-medium rounded-full hover:bg-gray-100 transition duration-300"
+              >Learn More Ways to Help</a
+            >
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-teal-50 bg-[url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Story</h2>
-                <div class="w-20 h-1 bg-teal-500 mx-auto"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1686&q=80" alt="Kelp forest" class="rounded-xl shadow-xl w-full">
-                    <div class="absolute -bottom-6 -right-6 bg-teal-600 text-white p-4 rounded-xl shadow-lg">
-                        <p class="text-xl font-bold">90%</p>
-                        <p class="text-sm">of kelp forests lost in some regions</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">From Student Project to Global Solution</h3>
-                    <p class="text-gray-600 mb-6">ReKelp was founded in 2022 by marine biology student Alex Chen after witnessing firsthand the devastating decline of kelp forests during a research expedition. What began as a university project has grown into an international movement of young scientists and engineers committed to marine restoration.</p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0 bg-teal-100 rounded-full p-2">
-                                <svg class="h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-medium text-gray-900">The Problem</h4>
-                                <p class="text-gray-600">Kelp forests are disappearing at alarming rates due to climate change, pollution, and overgrazing. These underwater forests are critical for marine biodiversity, carbon sequestration, and coastal protection.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0 bg-teal-100 rounded-full p-2">
-                                <svg class="h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-medium text-gray-900">Our Vision</h4>
-                                <p class="text-gray-600">We believe in scalable, low-cost solutions that communities worldwide can implement. By open-sourcing our designs and training the next generation of ocean stewards, we're creating a global network of kelp restoration.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section
+      id="about"
+      class="py-20 bg-teal-50 bg-[url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')]"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Our Story
+          </h2>
+          <div class="w-20 h-1 bg-teal-500 mx-auto"></div>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="relative">
+            <img
+              src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1686&q=80"
+              alt="Kelp forest"
+              class="rounded-xl shadow-xl w-full"
+            />
+            <div
+              class="absolute -bottom-6 -right-6 bg-teal-600 text-white p-4 rounded-xl shadow-lg"
+            >
+              <p class="text-xl font-bold">90%</p>
+              <p class="text-sm">of kelp forests lost in some regions</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              From Student Project to Global Solution
+            </h3>
+            <p class="text-gray-600 mb-6">
+              ReKelp was founded in 2022 by marine biology student Alex Chen
+              after witnessing firsthand the devastating decline of kelp forests
+              during a research expedition. What began as a university project
+              has grown into an international movement of young scientists and
+              engineers committed to marine restoration.
+            </p>
+
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-teal-100 rounded-full p-2">
+                  <svg
+                    class="h-6 w-6 text-teal-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg font-medium text-gray-900">The Problem</h4>
+                  <p class="text-gray-600">
+                    Kelp forests are disappearing at alarming rates due to
+                    climate change, pollution, and overgrazing. These underwater
+                    forests are critical for marine biodiversity, carbon
+                    sequestration, and coastal protection.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-teal-100 rounded-full p-2">
+                  <svg
+                    class="h-6 w-6 text-teal-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg font-medium text-gray-900">Our Vision</h4>
+                  <p class="text-gray-600">
+                    We believe in scalable, low-cost solutions that communities
+                    worldwide can implement. By open-sourcing our designs and
+                    training the next generation of ocean stewards, we're
+                    creating a global network of kelp restoration.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Solution Section -->
     <section id="solution" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Innovative Solution</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Combining marine biology with student-led engineering to create scalable kelp restoration tools</p>
-                <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12 mb-20">
-                <div class="device-card bg-white p-8 rounded-xl shadow-lg transition duration-300">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-teal-100 p-3 rounded-full mr-4">
-                            <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900">ReKelp Nursery</h3>
-                    </div>
-                    <p class="text-gray-600 mb-6">Our land-based nursery system grows juvenile kelp in controlled conditions, optimizing growth before ocean deployment. Modular tanks can be set up anywhere with access to seawater.</p>
-                    <ul class="space-y-3 mb-6">
-                        <li class="flex items-center">
-                            <svg class="h-5 w-5 text-teal-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">10x faster growth than traditional methods</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="h-5 w-5 text-teal-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">95% survival rate to maturity</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="h-5 w-5 text-teal-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">Open-source designs available</span>
-                        </li>
-                    </ul>
-                    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-                
-                <div class="device-card bg-white p-8 rounded-xl shadow-lg transition duration-300">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-teal-100 p-3 rounded-full mr-4">
-                            <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900">Floating Seeder Device</h3>
-                    </div>
-                    <p class="text-gray-600 mb-6">Our autonomous deployment system precisely plants juvenile kelp at optimal locations. GPS-guided and solar-powered, it can restore acres of ocean floor with minimal human intervention.</p>
-                    <ul class="space-y-3 mb-6">
-                        <li class="flex items-center">
-                            <svg class="h-5 w-5 text-teal-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">Biodegradable twine with kelp spores</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="h-5 w-5 text-teal-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">Real-time monitoring via satellite</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="h-5 w-5 text-teal-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">$200 material cost (DIY version)</span>
-                        </li>
-                    </ul>
-                    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Floating device prototype" class="w-full h-64 object-cover">
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">How It Works</h3>
-                <div class="relative">
-                    <div class="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
-                        <div class="relative timeline-item">
-                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-600 text-white mx-auto md:mx-0">
-                                <span class="text-xl font-bold">1</span>
-                            </div>
-                            <div class="mt-4 text-center md:text-left">
-                                <h4 class="text-lg font-medium text-gray-900">Spore Collection</h4>
-                                <p class="mt-2 text-gray-600">Sustainable harvesting from healthy kelp specimens under controlled conditions.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="relative timeline-item">
-                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-600 text-white mx-auto md:mx-0">
-                                <span class="text-xl font-bold">2</span>
-                            </div>
-                            <div class="mt-4 text-center md:text-left">
-                                <h4 class="text-lg font-medium text-gray-900">Nursery Growth</h4>
-                                <p class="mt-2 text-gray-600">Juvenile kelp grows in our land-based tanks for 6-8 weeks until ready for deployment.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="relative timeline-item">
-                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-600 text-white mx-auto md:mx-0">
-                                <span class="text-xl font-bold">3</span>
-                            </div>
-                            <div class="mt-4 text-center md:text-left">
-                                <h4 class="text-lg font-medium text-gray-900">Ocean Deployment</h4>
-                                <p class="mt-2 text-gray-600">Floating seeder precisely plants juvenile kelp at optimal restoration sites.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Our Innovative Solution
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Combining marine biology with student-led engineering to create
+            scalable kelp restoration tools
+          </p>
+          <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-20">
+          <div
+            class="device-card bg-white p-8 rounded-xl shadow-lg transition duration-300"
+          >
+            <div class="flex items-center mb-6">
+              <div class="bg-teal-100 p-3 rounded-full mr-4">
+                <svg
+                  class="h-8 w-8 text-teal-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">ReKelp Nursery</h3>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Our land-based nursery system grows juvenile kelp in controlled
+              conditions, optimizing growth before ocean deployment. Modular
+              tanks can be set up anywhere with access to seawater.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-700"
+                  >10x faster growth than traditional methods</span
+                >
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-700">95% survival rate to maturity</span>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-700">Open-source designs available</span>
+              </li>
+            </ul>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+              <iframe
+                class="w-full h-64"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+
+          <div
+            class="device-card bg-white p-8 rounded-xl shadow-lg transition duration-300"
+          >
+            <div class="flex items-center mb-6">
+              <div class="bg-teal-100 p-3 rounded-full mr-4">
+                <svg
+                  class="h-8 w-8 text-teal-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">
+                Floating Seeder Device
+              </h3>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Our autonomous deployment system precisely plants juvenile kelp at
+              optimal locations. GPS-guided and solar-powered, it can restore
+              acres of ocean floor with minimal human intervention.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-700"
+                  >Biodegradable twine with kelp spores</span
+                >
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-700"
+                  >Real-time monitoring via satellite</span
+                >
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-teal-500 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span class="text-gray-700"
+                  >$200 material cost (DIY version)</span
+                >
+              </li>
+            </ul>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="Floating device prototype"
+                class="w-full h-64 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">How It Works</h3>
+          <div class="relative">
+            <div class="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
+              <div class="relative timeline-item">
+                <div
+                  class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-600 text-white mx-auto md:mx-0"
+                >
+                  <span class="text-xl font-bold">1</span>
+                </div>
+                <div class="mt-4 text-center md:text-left">
+                  <h4 class="text-lg font-medium text-gray-900">
+                    Spore Collection
+                  </h4>
+                  <p class="mt-2 text-gray-600">
+                    Sustainable harvesting from healthy kelp specimens under
+                    controlled conditions.
+                  </p>
+                </div>
+              </div>
+
+              <div class="relative timeline-item">
+                <div
+                  class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-600 text-white mx-auto md:mx-0"
+                >
+                  <span class="text-xl font-bold">2</span>
+                </div>
+                <div class="mt-4 text-center md:text-left">
+                  <h4 class="text-lg font-medium text-gray-900">
+                    Nursery Growth
+                  </h4>
+                  <p class="mt-2 text-gray-600">
+                    Juvenile kelp grows in our land-based tanks for 6-8 weeks
+                    until ready for deployment.
+                  </p>
+                </div>
+              </div>
+
+              <div class="relative timeline-item">
+                <div
+                  class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-600 text-white mx-auto md:mx-0"
+                >
+                  <span class="text-xl font-bold">3</span>
+                </div>
+                <div class="mt-4 text-center md:text-left">
+                  <h4 class="text-lg font-medium text-gray-900">
+                    Ocean Deployment
+                  </h4>
+                  <p class="mt-2 text-gray-600">
+                    Floating seeder precisely plants juvenile kelp at optimal
+                    restoration sites.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Global Kelp Map Section -->
-    <section id="map" class="py-20 bg-teal-50 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-[length:40px_40px]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Global Kelp Forest Changes</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Visualizing kelp canopy changes from 1984 to present</p>
-                <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
-            </div>
-            
-            <div class="map-container bg-gray-200 mb-8 relative">
-                <!-- Interactive Map Container -->
-                <div id="kelp-map" class="h-full w-full rounded-xl overflow-hidden">
-                    <!-- Map will be loaded here via JavaScript -->
-                </div>
-
-                <!-- Legend -->
-                <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm p-4 rounded-lg shadow-lg z-[1000]">
-                    <h4 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Legend
-                    </h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-4 rounded-full bg-red-600/30 border-2 border-red-600"></div>
-                            <span>Declining</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-4 rounded-full bg-yellow-600/30 border-2 border-yellow-600"></div>
-                            <span>Stable</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-4 h-4 rounded-full bg-green-600/30 border-2 border-green-600"></div>
-                            <span>Recovering</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Year Slider with Comparison Toggle -->
-            <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
-                <div class="w-full md:w-1/2">
-                    <label for="year-range" class="block text-sm font-medium text-gray-700 mb-1 text-center">Year Range: <span id="year-value">2025</span></label>
-                    <input type="range" id="year-range" min="1984" max="2025" value="2025" class="w-full">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>1984</span>
-                        <span>2025</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" id="compare-toggle" class="rounded border-gray-300 text-teal-600 focus:ring-teal-500">
-                    <label for="compare-toggle" class="text-sm text-gray-700">Show 1984 comparison</label>
-                </div>
-            </div>
-            
-            <div class="bg-teal-50 rounded-xl p-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Key Findings</h3>
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <div class="text-4xl font-bold text-teal-600 mb-2">-38%</div>
-                        <p class="text-gray-700">Average global kelp decline since 1980</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <div class="text-4xl font-bold text-teal-600 mb-2">95%</div>
-                        <p class="text-gray-700">Loss in Northern California since 2014</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow">
-                        <div class="text-4xl font-bold text-teal-600 mb-2">+12%</div>
-                        <p class="text-gray-700">Recovery in restored areas (3-year average)</p>
-                    </div>
-                </div>
-            </div>
+    <section
+      id="map"
+      class="py-20 bg-teal-50 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-[length:40px_40px]"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Global Kelp Forest Changes
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Visualizing kelp canopy changes from 1984 to present
+          </p>
+          <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
         </div>
+
+        <div class="map-container bg-gray-200 mb-8 relative">
+          <!-- Interactive Map Container -->
+          <div id="kelp-map" class="h-full w-full rounded-xl overflow-hidden">
+            <!-- Map will be loaded here via JavaScript -->
+          </div>
+
+          <!-- Legend -->
+          <div
+            class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm p-4 rounded-lg shadow-lg z-[1000]"
+          >
+            <h4
+              class="font-semibold text-gray-900 mb-2 flex items-center gap-2"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Legend
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-4 h-4 rounded-full bg-red-600/30 border-2 border-red-600"
+                ></div>
+                <span>Declining</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-4 h-4 rounded-full bg-yellow-600/30 border-2 border-yellow-600"
+                ></div>
+                <span>Stable</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-4 h-4 rounded-full bg-green-600/30 border-2 border-green-600"
+                ></div>
+                <span>Recovering</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Year Slider with Comparison Toggle -->
+        <div
+          class="flex flex-col md:flex-row justify-center items-center gap-4 mb-8"
+        >
+          <div class="w-full md:w-1/2">
+            <label
+              for="year-range"
+              class="block text-sm font-medium text-gray-700 mb-1 text-center"
+              >Year Range: <span id="year-value">2025</span></label
+            >
+            <input
+              type="range"
+              id="year-range"
+              min="1984"
+              max="2025"
+              value="2025"
+              class="w-full"
+            />
+            <div class="flex justify-between text-xs text-gray-500 mt-1">
+              <span>1984</span>
+              <span>2025</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="compare-toggle"
+              class="rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+            />
+            <label for="compare-toggle" class="text-sm text-gray-700"
+              >Show 1984 comparison</label
+            >
+          </div>
+        </div>
+
+        <div class="bg-teal-50 rounded-xl p-8">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Key Findings</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+              <div class="text-4xl font-bold text-teal-600 mb-2">-38%</div>
+              <p class="text-gray-700">
+                Average global kelp decline since 1980
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+              <div class="text-4xl font-bold text-teal-600 mb-2">95%</div>
+              <p class="text-gray-700">
+                Loss in Northern California since 2014
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+              <div class="text-4xl font-bold text-teal-600 mb-2">+12%</div>
+              <p class="text-gray-700">
+                Recovery in restored areas (3-year average)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Get Involved Section -->
     <section id="involved" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Join the Movement</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Help us restore kelp forests through action, education, and innovation</p>
-                <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Donate</h3>
-                    <p class="text-gray-600 mb-6">Your contribution funds nursery construction, seeder deployments, and student research programs.</p>
-                    <button class="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-medium transition duration-300">Give Today</button>
-                </div>
-                
-                <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Collaborate</h3>
-                    <p class="text-gray-600 mb-6">Schools, researchers, and NGOs can partner with us to implement kelp restoration in their region.</p>
-                    <button class="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-medium transition duration-300">Partner With Us</button>
-                </div>
-                
-                <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Volunteer</h3>
-                    <p class="text-gray-600 mb-6">Join our field teams, help build devices, or contribute your skills to our open-source projects.</p>
-                    <button class="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-medium transition duration-300">Sign Up</button>
-                </div>
-            </div>
-            
-            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="md:flex">
-                    <div class="md:flex-1 p-8">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Stay Updated</h3>
-                        <form>
-                            <div class="mb-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
-                            </div>
-                            <div class="mb-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
-                            </div>
-                            <div class="mb-6">
-                                <label for="interest" class="block text-sm font-medium text-gray-700 mb-1">Interest</label>
-                                <select id="interest" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
-                                    <option>General Updates</option>
-                                    <option>Volunteer Opportunities</option>
-                                    <option>Research Collaboration</option>
-                                    <option>Educational Resources</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md font-medium transition duration-300">Subscribe</button>
-                        </form>
-                    </div>
-                    <div class="md:flex-1 bg-teal-600 p-8 text-white">
-                        <h3 class="text-2xl font-bold mb-6">For Collaborators</h3>
-                        <p class="mb-6">We're especially interested in partnering with:</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-teal-200 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>High schools & universities with marine science programs</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-teal-200 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Coastal communities affected by kelp loss</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="h-5 w-5 text-teal-200 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>Engineering teams interested in open-source ocean tech</span>
-                            </li>
-                        </ul>
-                        <a href="#" class="inline-flex items-center text-teal-100 hover:text-white font-medium">
-                            Download Partnership Guide
-                            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Join the Movement
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Help us restore kelp forests through action, education, and
+            innovation
+          </p>
+          <div class="w-20 h-1 bg-teal-500 mx-auto mt-4"></div>
         </div>
-    </section>
 
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="h-8 w-8 text-teal-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Donate</h3>
+            <p class="text-gray-600 mb-6">
+              Your contribution funds nursery construction, seeder deployments,
+              and student research programs.
+            </p>
+            <button
+              class="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-medium transition duration-300"
+            >
+              Give Today
+            </button>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="h-8 w-8 text-teal-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Collaborate</h3>
+            <p class="text-gray-600 mb-6">
+              Schools, researchers, and NGOs can partner with us to implement
+              kelp restoration in their region.
+            </p>
+            <button
+              class="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-medium transition duration-300"
+            >
+              Partner With Us
+            </button>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition duration-300"
+          >
+            <div
+              class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <svg
+                class="h-8 w-8 text-teal-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Volunteer</h3>
+            <p class="text-gray-600 mb-6">
+              Join our field teams, help build devices, or contribute your
+              skills to our open-source projects.
+            </p>
+            <button
+              class="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-full font-medium transition duration-300"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden"
+        >
+          <div class="md:flex">
+            <div class="md:flex-1 p-8">
+              <h3 class="text-2xl font-bold text-gray-900 mb-6">
+                Stay Updated
+              </h3>
+              <form>
+                <div class="mb-4">
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+                <div class="mb-6">
+                  <label
+                    for="interest"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Interest</label
+                  >
+                  <select
+                    id="interest"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  >
+                    <option>General Updates</option>
+                    <option>Volunteer Opportunities</option>
+                    <option>Research Collaboration</option>
+                    <option>Educational Resources</option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md font-medium transition duration-300"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+            <div class="md:flex-1 bg-teal-600 p-8 text-white">
+              <h3 class="text-2xl font-bold mb-6">For Collaborators</h3>
+              <p class="mb-6">
+                We're especially interested in partnering with:
+              </p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <svg
+                    class="h-5 w-5 text-teal-200 mr-2 mt-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span
+                    >High schools & universities with marine science
+                    programs</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    class="h-5 w-5 text-teal-200 mr-2 mt-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>Coastal communities affected by kelp loss</span>
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    class="h-5 w-5 text-teal-200 mr-2 mt-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span
+                    >Engineering teams interested in open-source ocean
+                    tech</span
+                  >
+                </li>
+              </ul>
+              <a
+                href="#"
+                class="inline-flex items-center text-teal-100 hover:text-white font-medium"
+              >
+                Download Partnership Guide
+                <svg
+                  class="ml-2 h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Facts Section -->
     <section class="py-16 bg-teal-700 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">Why Kelp Matters</h2>
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">20x</div>
-                    <p class="text-teal-100">More productive than land forests</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">1,000+</div>
-                    <p class="text-teal-100">Marine species depend on kelp</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">30%</div>
-                    <p class="text-teal-100">Of coastal carbon stored in kelp</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">$500B</div>
-                    <p class="text-teal-100">Annual ecosystem value globally</p>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center mb-12">Why Kelp Matters</h2>
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="text-center">
+            <div class="text-4xl font-bold mb-2">20x</div>
+            <p class="text-teal-100">More productive than land forests</p>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold mb-2">1,000+</div>
+            <p class="text-teal-100">Marine species depend on kelp</p>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold mb-2">30%</div>
+            <p class="text-teal-100">Of coastal carbon stored in kelp</p>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold mb-2">$500B</div>
+            <p class="text-teal-100">Annual ecosystem value globally</p>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <img class="h-8 w-auto" src="https://www.svgrepo.com/show/533630/kelp.svg" alt="ReKelp logo">
-                        <span class="ml-2 text-xl font-bold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">ReKelp</span>
-                    </div>
-                    <p class="text-gray-400 mb-4">Youth-driven kelp forest restoration through innovation and education.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-twitter fa-lg"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-instagram fa-lg"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-youtube fa-lg"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-github fa-lg"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Explore</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#home" class="text-gray-400 hover:text-white">Home</a></li>
-                        <li><a href="#about" class="text-gray-400 hover:text-white">About Us</a></li>
-                        <li><a href="#solution" class="text-gray-400 hover:text-white">Our Solution</a></li>
-                        <li><a href="#map" class="text-gray-400 hover:text-white">Global Map</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Get Involved</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#involved" class="text-gray-400 hover:text-white">Donate</a></li>
-                        <li><a href="#involved" class="text-gray-400 hover:text-white">Volunteer</a></li>
-                        <li><a href="#involved" class="text-gray-400 hover:text-white">Collaborate</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Open Source</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
-                    <address class="not-italic text-gray-400 space-y-2">
-                        <p>123 Ocean View Drive</p>
-                        <p>Santa Barbara, CA 93101</p>
-                        <p>hello@rekelp.org</p>
-                        <p>(805) 555-0199</p>
-                    </address>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <div class="flex items-center mb-4">
+              <img
+                class="h-8 w-auto"
+                src="https://www.svgrepo.com/show/533630/kelp.svg"
+                alt="ReKelp logo"
+              />
+              <span
+                class="ml-2 text-xl font-bold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent"
+                >ReKelp</span
+              >
             </div>
-            
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 mb-4 md:mb-0">© 2025 ReKelp. All rights reserved.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm">Cookies</a>
-                </div>
+            <p class="text-gray-400 mb-4">
+              Youth-driven kelp forest restoration through innovation and
+              education.
+            </p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-twitter fa-lg"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-instagram fa-lg"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-youtube fa-lg"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="fab fa-github fa-lg"></i>
+              </a>
             </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Explore</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#home" class="text-gray-400 hover:text-white">Home</a>
+              </li>
+              <li>
+                <a href="#about" class="text-gray-400 hover:text-white"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#solution" class="text-gray-400 hover:text-white"
+                  >Our Solution</a
+                >
+              </li>
+              <li>
+                <a href="#map" class="text-gray-400 hover:text-white"
+                  >Global Map</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Get Involved</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#involved" class="text-gray-400 hover:text-white"
+                  >Donate</a
+                >
+              </li>
+              <li>
+                <a href="#involved" class="text-gray-400 hover:text-white"
+                  >Volunteer</a
+                >
+              </li>
+              <li>
+                <a href="#involved" class="text-gray-400 hover:text-white"
+                  >Collaborate</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white"
+                  >Open Source</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Careers</a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <address class="not-italic text-gray-400 space-y-2">
+              <p>123 Ocean View Drive</p>
+              <p>Santa Barbara, CA 93101</p>
+              <p>hello@rekelp.org</p>
+              <p>(805) 555-0199</p>
+            </address>
+          </div>
         </div>
+
+        <div
+          class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 mb-4 md:mb-0">
+            © 2025 ReKelp. All rights reserved.
+          </p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Privacy Policy</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Terms of Service</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Cookies</a
+            >
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <script>
-        // Load Leaflet JS dynamically
-        function loadLeaflet() {
-            return new Promise((resolve) => {
-                const script = document.createElement('script');
-                script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-                script.onload = resolve;
-                document.head.appendChild(script);
-            });
-        }
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
 
-        // Initialize the map once Leaflet is loaded
-        async function initMap() {
-            await loadLeaflet();
-            
-            const map = L.map('kelp-map', {
-                minZoom: 1, // Allow more zoom out
-                maxZoom: 10,
-                maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)), // Constrain panning
-                maxBoundsViscosity: 0.5 // Less strict bounds enforcement
-            }).setView([36.8, -121.9], 4);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    <script>
+      // Load Leaflet JS dynamically
+      function loadLeaflet() {
+        return new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+          script.onload = resolve;
+          document.head.appendChild(script);
+        });
+      }
+
+      // Initialize the map once Leaflet is loaded
+      async function initMap() {
+        await loadLeaflet();
+
+        const map = L.map("kelp-map", {
+          minZoom: 1, // Allow more zoom out
+          maxZoom: 10,
+          maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)), // Constrain panning
+          maxBoundsViscosity: 0.5, // Less strict bounds enforcement
+        }).setView([36.8, -121.9], 4);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Sample kelp forest data (in a real app, this would come from an API)
+        const kelpForests = [
+          {
+            id: 1,
+            name: "Monterey Bay",
+            position: [36.8, -121.9],
+            coverage2023: 25,
+            coverage1984: 95,
+            trend: "declining",
+            description:
+              "Historically one of California's most extensive kelp forests",
+            threats: ["Marine heatwaves", "Sea urchin overgrazing"],
+          },
+          {
+            id: 2,
+            name: "Channel Islands",
+            position: [34.0, -119.8],
+            coverage2023: 15,
+            coverage1984: 80,
+            trend: "declining",
+            description: "Critical habitat for numerous marine species",
+            threats: ["Climate change", "Purple urchin population boom"],
+          },
+          {
+            id: 3,
+            name: "Point Reyes",
+            position: [38.1, -123.0],
+            coverage2023: 45,
+            coverage1984: 75,
+            trend: "declining",
+            description: "Relatively stable compared to southern populations",
+            threats: ["Warming waters", "Storm damage"],
+          },
+        ];
+
+        // Function to update map based on selected year
+        function updateMap(year, showComparison) {
+          // Clear existing layers except base tile layer
+          map.eachLayer((layer) => {
+            if (!layer._url) {
+              map.removeLayer(layer);
+            }
+          });
+
+          kelpForests.forEach((forest) => {
+            const currentCoverage =
+              year === 1984 ? forest.coverage1984 : forest.coverage2023;
+            const radius = Math.max(currentCoverage * 1000, 5000);
+
+            // Add coverage area
+            L.circle(forest.position, {
+              radius: radius,
+              color: getColor(forest.trend),
+              fillColor: getColor(forest.trend),
+              fillOpacity: 0.3,
+              weight: 2,
             }).addTo(map);
 
-            // Sample kelp forest data (in a real app, this would come from an API)
-            const kelpForests = [
-                {
-                    id: 1,
-                    name: 'Monterey Bay',
-                    position: [36.8, -121.9],
-                    coverage2023: 25,
-                    coverage1984: 95,
-                    trend: 'declining',
-                    description: 'Historically one of California\'s most extensive kelp forests',
-                    threats: ['Marine heatwaves', 'Sea urchin overgrazing']
-                },
-                {
-                    id: 2,
-                    name: 'Channel Islands',
-                    position: [34.0, -119.8],
-                    coverage2023: 15,
-                    coverage1984: 80,
-                    trend: 'declining',
-                    description: 'Critical habitat for numerous marine species',
-                    threats: ['Climate change', 'Purple urchin population boom']
-                },
-                {
-                    id: 3,
-                    name: 'Point Reyes',
-                    position: [38.1, -123.0],
-                    coverage2023: 45,
-                    coverage1984: 75,
-                    trend: 'declining',
-                    description: 'Relatively stable compared to southern populations',
-                    threats: ['Warming waters', 'Storm damage']
-                }
-            ];
+            // Add historical comparison if enabled
+            if (showComparison && year !== 1984) {
+              L.circle(forest.position, {
+                radius: Math.max(forest.coverage1984 * 1000, 5000),
+                color: "#94A3B8",
+                fillColor: "transparent",
+                weight: 2,
+                dashArray: "5, 5",
+              }).addTo(map);
+            }
 
-            // Function to update map based on selected year
-            function updateMap(year, showComparison) {
-                // Clear existing layers except base tile layer
-                map.eachLayer(layer => {
-                    if (!layer._url) {
-                        map.removeLayer(layer);
-                    }
-                });
-
-                kelpForests.forEach(forest => {
-                    const currentCoverage = year === 1984 ? forest.coverage1984 : forest.coverage2023;
-                    const radius = Math.max(currentCoverage * 1000, 5000);
-                    
-                    // Add coverage area
-                    L.circle(forest.position, {
-                        radius: radius,
-                        color: getColor(forest.trend),
-                        fillColor: getColor(forest.trend),
-                        fillOpacity: 0.3,
-                        weight: 2
-                    }).addTo(map);
-
-                    // Add historical comparison if enabled
-                    if (showComparison && year !== 1984) {
-                        L.circle(forest.position, {
-                            radius: Math.max(forest.coverage1984 * 1000, 5000),
-                            color: '#94A3B8',
-                            fillColor: 'transparent',
-                            weight: 2,
-                            dashArray: '5, 5'
-                        }).addTo(map);
-                    }
-
-                    // Add marker
-                    L.marker(forest.position, {
-                        icon: L.divIcon({
-                            html: `<div style="background-color: ${getColor(forest.trend)}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-                            iconSize: [20, 20],
-                            iconAnchor: [10, 10]
-                        })
-                    }).bindPopup(`
+            // Add marker
+            L.marker(forest.position, {
+              icon: L.divIcon({
+                html: `<div style="background-color: ${getColor(
+                  forest.trend
+                )}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+              }),
+            })
+              .bindPopup(
+                `
                         <div class="p-2">
-                            <h3 class="font-semibold text-gray-900 mb-2">${forest.name}</h3>
-                            <p class="text-sm text-gray-600 mb-3">${forest.description}</p>
+                            <h3 class="font-semibold text-gray-900 mb-2">${
+                              forest.name
+                            }</h3>
+                            <p class="text-sm text-gray-600 mb-3">${
+                              forest.description
+                            }</p>
                             <div class="space-y-2 mb-3">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-500">Current Coverage:</span>
@@ -979,198 +1790,253 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-500">1984 Coverage:</span>
-                                    <span class="text-sm font-medium text-gray-400">${forest.coverage1984}%</span>
+                                    <span class="text-sm font-medium text-gray-400">${
+                                      forest.coverage1984
+                                    }%</span>
                                 </div>
                             </div>
                             <div>
                                 <h4 class="text-xs font-medium text-gray-700 mb-1">Primary Threats:</h4>
                                 <div class="flex flex-wrap gap-1">
-                                    ${forest.threats.map(threat => `
+                                    ${forest.threats
+                                      .map(
+                                        (threat) => `
                                         <span class="px-2 py-1 bg-gray-100 text-xs rounded-full text-gray-600">${threat}</span>
-                                    `).join('')}
+                                    `
+                                      )
+                                      .join("")}
                                 </div>
                             </div>
                         </div>
-                    `).addTo(map);
-                });
-            }
-
-            function getColor(trend) {
-                switch(trend) {
-                    case 'declining': return '#DC2626';
-                    case 'stable': return '#D97706';
-                    case 'recovering': return '#059669';
-                    default: return '#6B7280';
-                }
-            }
-
-            // Initialize with current year
-            updateMap(2025, false);
-
-            // Connect slider to map updates
-            const yearSlider = document.getElementById('year-range');
-            const yearValue = document.getElementById('year-value');
-            const compareToggle = document.getElementById('compare-toggle');
-
-            yearSlider.addEventListener('input', () => {
-                yearValue.textContent = yearSlider.value;
-                updateMap(parseInt(yearSlider.value), compareToggle.checked);
-            });
-
-            compareToggle.addEventListener('change', () => {
-                updateMap(parseInt(yearSlider.value), compareToggle.checked);
-            });
+                    `
+              )
+              .addTo(map);
+          });
         }
 
-        // Initialize the map when page loads
-        document.addEventListener('DOMContentLoaded', initMap);
-
-        // Create bubbles for hero section with constant animation
-        function createBubbles() {
-            const bubblesContainer = document.getElementById('bubbles');
-            const bubbleCount = 50; // Fewer bubbles but more visible
-            
-            // Clear existing bubbles first
-            bubblesContainer.innerHTML = '';
-            
-            for (let i = 0; i < bubbleCount; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
-                
-                // Random properties for bubbles
-                const size = Math.random() * 20 + 10; // 10-30px bubbles
-                const posX = Math.random() * 100;
-                const delay = Math.random() * 15; // Staggered appearance
-                const duration = Math.random() * 15 + 10; // 10-25s duration
-                const opacity = Math.random() * 0.6 + 0.4; // More visible
-                const blur = Math.random() * 0.5; // Slight blur
-                
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                bubble.style.left = `${posX}%`;
-                bubble.style.animationDelay = `${delay}s`;
-                bubble.style.animationDuration = `${duration}s`;
-                bubble.style.opacity = opacity;
-                bubble.style.filter = `blur(${blur}px)`;
-                
-                // Add slight horizontal movement
-                const xMovement = (Math.random() - 0.5) * 20;
-                bubble.style.setProperty('--x-movement', `${xMovement}px`);
-                
-                bubblesContainer.appendChild(bubble);
-            }
+        function getColor(trend) {
+          switch (trend) {
+            case "declining":
+              return "#DC2626";
+            case "stable":
+              return "#D97706";
+            case "recovering":
+              return "#059669";
+            default:
+              return "#6B7280";
+          }
         }
 
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+        // Initialize with current year
+        updateMap(2025, false);
+
+        // Connect slider to map updates
+        const yearSlider = document.getElementById("year-range");
+        const yearValue = document.getElementById("year-value");
+        const compareToggle = document.getElementById("compare-toggle");
+
+        yearSlider.addEventListener("input", () => {
+          yearValue.textContent = yearSlider.value;
+          updateMap(parseInt(yearSlider.value), compareToggle.checked);
         });
 
-        // Initialize bubbles when page loads
-        window.addEventListener('load', createBubbles);
+        compareToggle.addEventListener("change", () => {
+          updateMap(parseInt(yearSlider.value), compareToggle.checked);
+        });
+      }
 
-        // Scroll detection for header show/hide
-        let lastScroll = 0;
-        const header = document.getElementById('main-nav');
-        const scrollThreshold = 100; // How much to scroll before hiding header
+      // Initialize the map when page loads
+      document.addEventListener("DOMContentLoaded", initMap);
 
-        window.addEventListener('scroll', function() {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll <= 0) {
-                // At top of page
-                header.classList.remove('-translate-y-full');
-                header.classList.add('translate-y-0');
-                return;
-            }
+      // Create bubbles for hero section with constant animation
+      function createBubbles() {
+        const bubblesContainer = document.getElementById("bubbles");
+        const bubbleCount = 50; // Fewer bubbles but more visible
 
-            if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
-                // Scrolling down past threshold
-                header.classList.remove('translate-y-0');
-                header.classList.add('-translate-y-full');
-            } else if (currentScroll < lastScroll) {
-                // Scrolling up
-                header.classList.remove('-translate-y-full');
-                header.classList.add('translate-y-0');
-            }
-            
-            lastScroll = currentScroll;
+        // Clear existing bubbles first
+        bubblesContainer.innerHTML = "";
+
+        for (let i = 0; i < bubbleCount; i++) {
+          const bubble = document.createElement("div");
+          bubble.classList.add("bubble");
+
+          // Random properties for bubbles
+          const size = Math.random() * 20 + 10; // 10-30px bubbles
+          const posX = Math.random() * 100;
+          const delay = Math.random() * 15; // Staggered appearance
+          const duration = Math.random() * 15 + 10; // 10-25s duration
+          const opacity = Math.random() * 0.6 + 0.4; // More visible
+          const blur = Math.random() * 0.5; // Slight blur
+
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          bubble.style.left = `${posX}%`;
+          bubble.style.animationDelay = `${delay}s`;
+          bubble.style.animationDuration = `${duration}s`;
+          bubble.style.opacity = opacity;
+          bubble.style.filter = `blur(${blur}px)`;
+
+          // Add slight horizontal movement
+          const xMovement = (Math.random() - 0.5) * 20;
+          bubble.style.setProperty("--x-movement", `${xMovement}px`);
+
+          bubblesContainer.appendChild(bubble);
+        }
+      }
+
+      // Mobile menu toggle
+      document
+        .getElementById("mobile-menu-button")
+        .addEventListener("click", function () {
+          const menu = document.getElementById("mobile-menu");
+          menu.classList.toggle("hidden");
         });
 
-        // Before/After slider functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const sliders = document.querySelectorAll('.before-after');
-            
-            sliders.forEach(slider => {
-                const sliderHandle = slider.querySelector('.slider-handle');
-                const sliderDiv = slider.querySelector('.slider');
-                let isDragging = false;
-                
-                function moveSlider(e) {
-                    if (!isDragging) return;
-                    
-                    let x = e.pageX - slider.getBoundingClientRect().left;
-                    let sliderWidth = slider.offsetWidth;
-                    
-                    // Constrain the slider within the bounds
-                    if (x < 0) x = 0;
-                    if (x > sliderWidth) x = sliderWidth;
-                    
-                    sliderDiv.style.width = x + 'px';
-                    sliderHandle.style.left = x + 'px';
-                }
-                
-                sliderHandle.addEventListener('mousedown', function() {
-                    isDragging = true;
-                });
-                
-                document.addEventListener('mouseup', function() {
-                    isDragging = false;
-                });
-                
-                document.addEventListener('mousemove', moveSlider);
-                
-                // Touch support
-                sliderHandle.addEventListener('touchstart', function() {
-                    isDragging = true;
-                });
-                
-                document.addEventListener('touchend', function() {
-                    isDragging = false;
-                });
-                
-                document.addEventListener('touchmove', function(e) {
-                    if (!isDragging) return;
-                    let touch = e.touches[0];
-                    let x = touch.pageX - slider.getBoundingClientRect().left;
-                    let sliderWidth = slider.offsetWidth;
-                    
-                    if (x < 0) x = 0;
-                    if (x > sliderWidth) x = sliderWidth;
-                    
-                    sliderDiv.style.width = x + 'px';
-                    sliderHandle.style.left = x + 'px';
-                });
-            });
+      // Initialize bubbles when page loads
+      window.addEventListener("load", createBubbles);
 
-            // Scroll animation for sections
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            function checkScroll() {
-                fadeElements.forEach(element => {
-                    const elementTop = element.getBoundingClientRect().top;
-                    const windowHeight = window.innerHeight;
-                    
-                    if (elementTop < windowHeight - 100) {
-                        element.classList.add('visible');
-                    }
-                });
-            }
-            
-            window.addEventListener('scroll', checkScroll);
-            window.addEventListener('load', checkScroll);
+      // Scroll detection for header show/hide
+      let lastScroll = 0;
+      const header = document.getElementById("main-nav");
+      const scrollThreshold = 100; // How much to scroll before hiding header
+
+      window.addEventListener("scroll", function () {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll <= 0) {
+          // At top of page
+          header.classList.remove("-translate-y-full");
+          header.classList.add("translate-y-0");
+          return;
+        }
+
+        if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
+          // Scrolling down past threshold
+          header.classList.remove("translate-y-0");
+          header.classList.add("-translate-y-full");
+        } else if (currentScroll < lastScroll) {
+          // Scrolling up
+          header.classList.remove("-translate-y-full");
+          header.classList.add("translate-y-0");
+        }
+
+        lastScroll = currentScroll;
+      });
+
+      // Before/After slider functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const sliders = document.querySelectorAll(".before-after");
+
+        sliders.forEach((slider) => {
+          const sliderHandle = slider.querySelector(".slider-handle");
+          const sliderDiv = slider.querySelector(".slider");
+          let isDragging = false;
+
+          function moveSlider(e) {
+            if (!isDragging) return;
+
+            let x = e.pageX - slider.getBoundingClientRect().left;
+            let sliderWidth = slider.offsetWidth;
+
+            // Constrain the slider within the bounds
+            if (x < 0) x = 0;
+            if (x > sliderWidth) x = sliderWidth;
+
+            sliderDiv.style.width = x + "px";
+            sliderHandle.style.left = x + "px";
+          }
+
+          sliderHandle.addEventListener("mousedown", function () {
+            isDragging = true;
+          });
+
+          document.addEventListener("mouseup", function () {
+            isDragging = false;
+          });
+
+          document.addEventListener("mousemove", moveSlider);
+
+          // Touch support
+          sliderHandle.addEventListener("touchstart", function () {
+            isDragging = true;
+          });
+
+          document.addEventListener("touchend", function () {
+            isDragging = false;
+          });
+
+          document.addEventListener("touchmove", function (e) {
+            if (!isDragging) return;
+            let touch = e.touches[0];
+            let x = touch.pageX - slider.getBoundingClientRect().left;
+            let sliderWidth = slider.offsetWidth;
+
+            if (x < 0) x = 0;
+            if (x > sliderWidth) x = sliderWidth;
+
+            sliderDiv.style.width = x + "px";
+            sliderHandle.style.left = x + "px";
+          });
         });
+
+        // Scroll animation for sections
+        const fadeElements = document.querySelectorAll(".fade-in");
+
+        function checkScroll() {
+          fadeElements.forEach((element) => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementTop < windowHeight - 100) {
+              element.classList.add("visible");
+            }
+          });
+        }
+
+        window.addEventListener("scroll", checkScroll);
+        window.addEventListener("load", checkScroll);
+      });
     </script>
-<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=Ravfe/rekelpweb" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+    <p
+      style="
+        border-radius: 8px;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        margin-top: 16px;
+        position: fixed;
+        left: 8px;
+        bottom: 8px;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 4px 8px;
+      "
+    >
+      Made with
+      <img
+        src="https://enzostvs-deepsite.hf.space/logo.svg"
+        alt="DeepSite Logo"
+        style="
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+          display: inline-block;
+          margin-right: 3px;
+          filter: brightness(0) invert(1);
+        "
+      /><a
+        href="https://enzostvs-deepsite.hf.space"
+        style="color: #fff; text-decoration: underline"
+        target="_blank"
+        >DeepSite</a
+      >
+      - 🧬
+      <a
+        href="https://enzostvs-deepsite.hf.space?remix=Ravfe/rekelpweb"
+        style="color: #fff; text-decoration: underline"
+        target="_blank"
+        >Remix</a
+      >
+    </p>
+  </body>
 </html>
