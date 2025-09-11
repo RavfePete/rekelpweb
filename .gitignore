@@ -2,4 +2,7 @@
 # ignore huge map data
 bigdata/
 *.geojson
-*.json
+
+# ignore large map data (kept local or external)
+bigdata/
+*.geojson
